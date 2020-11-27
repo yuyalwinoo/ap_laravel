@@ -42,8 +42,12 @@ use App\Http\Controllers\HomeController;
 //     return view('home',compact('data'));
 // });
 
-Route::get('/', [HomeController::class, 'index']);
-Route::get('about', [HomeController::class, 'about']);
-Route::get('contact', [HomeController::class, 'contact']);
+// Route::get('/', [HomeController::class, 'index']);
+// Route::get('about', [HomeController::class, 'about']);
+// Route::get('contact', [HomeController::class, 'contact']);
+
+Route::resource('posts',HomeController::class);
+
+Route::get('/',[HomeController::class,"testRoot"])->name('root');
 
 
