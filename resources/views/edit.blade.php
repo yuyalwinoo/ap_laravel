@@ -26,8 +26,17 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputDes">Description</label>
-                    <textarea class="form-control" name='des'>{{old('des',$post->description)}}</textarea>
+                    <textarea class="form-control" name='description'>{{old('description',$post->description)}}</textarea>
                 </div>
+                <div class="form-group">
+                    <select id="" name="category_id" class="form-control">
+                        <option value="">---Select Category---</option>
+                        @foreach ($categories as $cat)
+                            <option value="{{$cat->id}}" {{ $cat->id == $post->category_id ? 'selected':''}}>{{$cat->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                
                 <button type="submit" class="btn btn-primary">Submit</button>
                 <a href='/posts' class='btn btn-success'>Back</a>
                 </form>

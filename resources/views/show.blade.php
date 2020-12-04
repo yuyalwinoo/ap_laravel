@@ -8,8 +8,9 @@
             </div>
             <div class="card-body">
                     <div>
-                        <h5 class="card-title">{{ $post->name }}</h5>
+                        <h4 class="card-title">{{ $post->name }}</h4>
                         <p class="card-text">{{ $post->description }}</p>
+                        <p class="card-text" style = "font-style: italic; ">{{ 'Category : ' .$post->categories->name }}</p>
                     </div>
                     <br>
             </div>

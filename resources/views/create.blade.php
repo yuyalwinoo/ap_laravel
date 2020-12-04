@@ -30,9 +30,21 @@
 
                 <div class="form-group">
                     <label for="exampleInputDes">Description</label>
-                    <textarea class="form-control" name='des'>{{old('des')}}</textarea>
+                    <textarea class="form-control" name='description'>{{old('des')}}</textarea>
                 </div>
-                @error('des')
+                @error('description')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+
+                <div class="form-group">
+                    <select id="" name="category_id" class="form-control">
+                        <option value="">---Select Category---</option>
+                        @foreach ($categories as $cat)
+                            <option value="{{$cat->id}}">{{$cat->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @error('category_id')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
 

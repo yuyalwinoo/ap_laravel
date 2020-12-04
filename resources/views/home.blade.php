@@ -5,6 +5,8 @@
         <div>
             <a href="{{ route('root') }}" class='btn btn-success'>Go To Root Path</a>
             <a href='/posts/create' class='btn btn-success'>New Post</a>
+            <a href='/logout' class='btn btn-warning'>Logout</a>
+            <p style='float:right'>{{Auth::user()->name}}</p>
         </div>
         <br>
         @foreach($data as $post)
@@ -15,7 +17,7 @@
             <div class="card-body">
                
                     <div>
-                        <h6 class="card-title">{{ $post->name }}</h6>
+                        <h5 class="card-title">{{ $post->name }}</h5>
                         <p class="card-text">{{ $post->description }}</p>
                         <div class='form-row'>
                             <a style="height: 40px;margin-right: 10px;" href="/posts/{{ $post->id }}" class="btn btn-primary">View</a>

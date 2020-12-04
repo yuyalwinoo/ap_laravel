@@ -26,7 +26,8 @@ class storePostRequest extends FormRequest
         return [
             //'name' => 'required|unique:posts|max:255',
             'name' => 'required|max:255',
-            'des' => 'required|max:255',
+            'description' => 'required|max:255',
+            'category_id' => 'required'
         ];
 
     }
@@ -34,7 +35,7 @@ class storePostRequest extends FormRequest
     public function messages(){
         return[
             'name.required' => 'Name is required!',
-            'des.required' => 'Description is required!'
+            'description.required' => 'Description is required!'
         ];
     }
 }

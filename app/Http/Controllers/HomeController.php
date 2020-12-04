@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Posts;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\storePostRequest;
 
@@ -14,6 +15,12 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public function __construct(){
+        //$this->middleware('auth')->except('index','create');
+        //$this->middleware('auth')->only('index','create');
+        $this->middleware('auth');
+    }
+
     public function testRoot()
     {
         dd('this is root path');
@@ -22,7 +29,8 @@ class HomeController extends Controller
     public function index()
     {
         //$data = Posts::all();
-        $data = Posts::orderBy('id','desc')->get();
+    
+        $data = Posts::where('user_id',auth()->id())->orderBy('id','desc')->get();
         //$data = Posts::latest()->first();
         return view('home',compact('data'));
     }
@@ -33,8 +41,9 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('create');
+    {   
+        $categories = Category::all();
+        return view('create',compact('categories'));
     }
 
     /**
@@ -53,17 +62,21 @@ class HomeController extends Controller
         //     'des' => 'required|max:255',
         // ]);
 
-        $post = new Posts();
-        // tablefieldname = parameter name from $request
-        $post->name = $request->name;
-        $post->description = $request->des;
+        // $post = new Posts();
+        // // tablefieldname = parameter name from $request
+        // $post->name = $request->name;
+        // $post->description = $request->des;
 
-        $post->save();
-
+        // $post->save();
+            
         // Posts::create([
         //     'name' => $request->name,
-        //     'description' => $request->des
+        //     'description' => $request->des,
+        //     'category_id' => $request->category,
         // ]);
+
+        $validated = $request->validated();
+        Posts::create($validated);
 
         return redirect('/posts');
 
@@ -76,9 +89,10 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Posts $post)
-    {
-        dd($post->categories->name);
-        //$post = Posts::findOrFail($id);
+    {   
+        //if($post->user_id != auth()->id()) abort(403); 
+
+        $this->authorize('view', $post);//with policy
         return view('show',compact('post'));
     }
 
@@ -91,7 +105,9 @@ class HomeController extends Controller
     public function edit(Posts $post)
     {
        // $post = Posts::findOrFail($id);
-        return view('edit',compact('post'));
+        if($post->user_id != auth()->id()) abort(403);
+        $categories = Category::all();
+        return view('edit',compact('post','categories'));
     }
 
     /**
@@ -103,11 +119,9 @@ class HomeController extends Controller
      */
     public function update(storePostRequest $request, Posts $post)
     {
-        $post->name = $request->name;
-        $post->description = $request->des;
-        $post->save();
+        $validated = $request->validated();
+        $post->update($validated);
         return redirect('/posts');
-
     }
 
     /**
