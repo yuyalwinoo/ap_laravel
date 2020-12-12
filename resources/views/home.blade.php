@@ -3,17 +3,25 @@
 @section('content')
     <div class='container'>
         <div>
-            <a href="{{ route('root') }}" class='btn btn-success'>Go To Root Path</a>
+            <a href="{{ route('root') }}" class='btn btn-success'>Go To Root Path</a> 
             <a href='/posts/create' class='btn btn-success'>New Post</a>
             <a href='/logout' class='btn btn-warning'>Logout</a>
             <p style='float:right'>{{Auth::user()->name}}</p>
         </div>
         <br>
+        @if (session('status'))
+            <div class="alert alert-success alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Success!</strong> {{ session('status') }}
+            </div>
+        @endif
+        
         @foreach($data as $post)
         <div class="card">
             <div class="card-header" style='text-align:center;background-color:cyan'>
                 <h5 class="card-title">Content {{ $post->id }}</h5>
             </div>
+            
             <div class="card-body">
                
                     <div>

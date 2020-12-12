@@ -1,5 +1,9 @@
 <?php
 
+use App\Test;
+use App\Container;
+use App\TestFacade;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
@@ -50,8 +54,27 @@ use App\Http\Controllers\HomeController;
 Route::resource('posts',HomeController::class)->middleware(['auth:sanctum', 'verified']);
 Route::get('logout',[AuthController::class,'logout']);
 
-Route::get('/',[HomeController::class,"testRoot"])->name('root');
+Route::get('/root',[HomeController::class,"testRoot"])->name('root');
 
+// Route::get('/', function(){
+//     $container = new Container();
 
+//     $container->bind('test', function(){
+//         return new Test();
+//     });
+//     $test = $container->resolve('test');
+//     dd($test->smth());
+// });
+
+Route::get('/',function(Test $test){
+    dd(resolve('test')->execute());
+    //return TestFacade::execute();
+
+    //$test = resolve('test');
+    //$test = resolve(App\Test::class);
+    //dd($test);
+    return view('welcome');
+    //return View::make('welcome');
+});
 
 
